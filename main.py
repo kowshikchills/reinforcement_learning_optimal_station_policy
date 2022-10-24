@@ -13,7 +13,6 @@ import random
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from os.path import exists
-from turtle import color
 import plotly.graph_objects as go
 
 path = 'models/station_policy'
