@@ -53,7 +53,26 @@ def check_password():
 
 if check_password():
     if selected_menu == "Train Agent":
-        st.header('RL Optimal Station Policy')
+        
+        col1, col2, col3, col4, col5 = st.columns([0.7,0.05,0.05,0.05,0.05])
+        col1.header('RL Optimal Station Policy')
+        col3.markdown('''
+        <a href="https://www.linkedin.com/in/kowshik-chilamkurthy-67a501113/">
+            <img src="https://img.icons8.com/color/2x/linkedin-circled.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        col4.markdown('''
+        <a href="https://github.com/kowshikchills/reinforcement_learning_optimal_station_policy">
+            <img src="https://img.icons8.com/color-glass/344/github--v1.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        col5.markdown('''
+        <a href="https://kowshikchilamkurthy.medium.com/">
+            <img src="https://img.icons8.com/color-glass/344/medium-monogram.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        #col1.markdown('[![Title](https://img.icons8.com/color-glass/344/github--v1.png)](<https://github.com/kowshikchills/reinforcement_learning_optimal_station_policy>)')
+
         st.warning('Select Parameters To Train Agent',icon="🕹")
         first, second, third = st.columns(3)
         first.info('Rewards',icon="⬆️")
@@ -157,6 +176,24 @@ if check_password():
                 col2.metric('Total Pickups','' , len(np.array(reward_profile)[np.array(reward_profile)>0]))
 
     if selected_menu == 'DQN Algorithm':
+        col1, col2, col3, col4, col5 = st.columns([0.7,0.05,0.05,0.05,0.05])
+        col3.markdown('''
+        <a href="https://www.linkedin.com/in/kowshik-chilamkurthy-67a501113/">
+            <img src="https://img.icons8.com/color/2x/linkedin-circled.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        col4.markdown('''
+        <a href="https://github.com/kowshikchills/reinforcement_learning_optimal_station_policy">
+            <img src="https://img.icons8.com/color-glass/344/github--v1.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        col5.markdown('''
+        <a href="https://kowshikchilamkurthy.medium.com/">
+            <img src="https://img.icons8.com/color-glass/344/medium-monogram.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+
+
         st.header('DQN Annotated Paper')
         import base64
         file_path  = 'models/2015-Playing-Atari-with-Deep-Reinforcement Learning.pdf'
@@ -168,6 +205,24 @@ if check_password():
         show_pdf(file_path)
 
     if selected_menu == 'Blog':
+        col1, col2, col3, col4, col5 = st.columns([0.7,0.05,0.05,0.05,0.05])
+        col3.markdown('''
+        <a href="https://www.linkedin.com/in/kowshik-chilamkurthy-67a501113/">
+            <img src="https://img.icons8.com/color/2x/linkedin-circled.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        col4.markdown('''
+        <a href="https://github.com/kowshikchills/reinforcement_learning_optimal_station_policy">
+            <img src="https://img.icons8.com/color-glass/344/github--v1.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+        col5.markdown('''
+        <a href="https://kowshikchilamkurthy.medium.com/">
+            <img src="https://img.icons8.com/color-glass/344/medium-monogram.png" width="30" height="30" />
+        </a>''',
+        unsafe_allow_html=True)
+
+
         from pathlib import Path
         import base64
         def read_markdown_file(markdown_file):
@@ -191,5 +246,22 @@ if check_password():
         st.write('Mail: kowshikchilamkurty@gmail.com')
         link='[🔗 Follow me on Linkedin](https://www.linkedin.com/in/kowshik-chilamkurthy-67a501113/)'
         st.markdown(link,unsafe_allow_html=True)
+    
+    
 
-        pass
+    col1, col2, col3, col4, col5,col7 = st.columns([0.5,0.05,0.05,0.05,0.05,0.6])
+    col3.markdown('''
+    <a href="https://www.linkedin.com/in/kowshik-chilamkurthy-67a501113/">
+        <img src="https://img.icons8.com/color/2x/linkedin-circled.png" width="30" height="30" />
+    </a>''',
+    unsafe_allow_html=True)
+    col4.markdown('''
+    <a href="https://github.com/kowshikchills/reinforcement_learning_optimal_station_policy">
+        <img src="https://img.icons8.com/color-glass/344/github--v1.png" width="30" height="30" />
+    </a>''',
+    unsafe_allow_html=True)
+    col5.markdown('''
+    <a href="https://kowshikchilamkurthy.medium.com/">
+        <img src="https://img.icons8.com/color-glass/344/medium-monogram.png" width="30" height="30" />
+    </a>''',
+    unsafe_allow_html=True)
