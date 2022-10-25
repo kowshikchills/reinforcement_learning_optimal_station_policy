@@ -2,28 +2,26 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import numpy as np
+import matplotlib.pyplot as plt
 import gym
 from gym_env.envs import ground_env as ge
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.vec_env import VecFrameStack
 from stable_baselines3 import DQN, A2C, PPO
+import plotly.graph_objects as go
+from os.path import exists
 import os
 import glob
 import random
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-from os.path import exists
-import plotly.graph_objects as go
 
 path = 'models/station_policy'
-path_use = 'models/station_policy_use'
 with st.sidebar:
     selected_menu = option_menu(
         menu_title="Kowshik's RL Project",  
         options=["Train Agent", "Blog", "DQN Algorithm", 'Contact Me'],  
         icons=["house", "bezier2", "lightning", 'envelope'],  
         menu_icon="cast", 
-        default_index=0,  
+        default_index=0
     )
 
 
@@ -63,6 +61,8 @@ if check_password():
         first.info('Penalty',icon="⬇️")
         number2 = first.number_input('Cosine Distance Scale', 100, help=  'Scale factor for: Farther is the agent to the target larger the penalty')
         number3 = first.number_input('Single Step', 0.01, help=  'Penalty for movement at each timestep')
+        
+        
         third.info('Time Params',icon="⏱")
         number4 = third.number_input('Time Between Subsequent Pickups', 100, help=  'Once the agent picks the target, the next target is delayed by this value')
         third.info('Done State',icon="✅")
@@ -72,7 +72,7 @@ if check_password():
         'penalty_for_one_step_when_ball_is_here': 0.1, 'reward_for_catch':number3,
         'time_between_catch_next_ball':int(number4),'game_end_total':int(number5),
         'game_end_pickup_time':int(number6)}
-
+        second.image('models/img.png')
         rewards_dict = {'cosine_distance_scale': 100, 'penalty_for_one_step': 0.01,
         'penalty_for_one_step_when_ball_is_here': 0.1, 'reward_for_catch':100, 'time_between_catch_next_ball':100,
         'game_end_total':1000,'game_end_pickup_time':10000}
@@ -94,11 +94,12 @@ if check_password():
             first, second, third = st.columns([0.45,0.2,0.4])
             length_of_test = first.number_input('Length of Test Game', 2000, help=  'Total length of game, keep it small')
             length_of_test = int(length_of_test)
+            speed_of_gif = third.number_input('Speed of Output', 5, help=  'Control the speed of the video')
             first, second, third = st.columns([0.45,0.2,0.4])
             test_flag = second.button('Run Agent')
             if test_flag:
                 with st.spinner('Agent is busy predicting'):
-                    model =  DQN.load(path_use)
+                    model =  DQN.load(path)
                     done = False
                     reward_params_test = reward_params
                     reward_params_test[-1] = length_of_test
@@ -131,7 +132,7 @@ if check_password():
                         yaxis=dict(range=[0, 100], autorange=False),
                         title="Reinforcement Learning Agent in Working",
                         updatemenus=[dict(buttons = [dict(
-                                                        args = [None, {"frame": {"duration": 5, 
+                                                        args = [None, {"frame": {"duration": speed_of_gif, 
                                                                                 "redraw": False},
                                                                         "fromcurrent": True, 
                                                                         "transition": {"duration": 0}}],
@@ -153,7 +154,7 @@ if check_password():
                 col1, col2, col3 = st.columns(3)
                 col1.metric('Total Reward', '', np.round(sum(reward_profile),2))
                 from collections import Counter
-                col2.metric('Targets Reached','' , len(np.array(reward_profile)[np.array(reward_profile)>0]))
+                col2.metric('Total Pickups','' , len(np.array(reward_profile)[np.array(reward_profile)>0]))
 
     if selected_menu == 'DQN Algorithm':
         st.header('DQN Annotated Paper')
