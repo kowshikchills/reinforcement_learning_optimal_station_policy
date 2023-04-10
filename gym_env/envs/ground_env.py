@@ -100,7 +100,7 @@ class playground_env(gym.Env):
         self.time_step_counter_station = 0
         self.reward_params = reward_params
         self.random_generator_frequency = self.reward_params[4] 
-        
+        self.l = l
         self.action_space = spaces.Discrete(5)
         self.state_type = 'vec'
         if self.state_type == 'image':
@@ -191,7 +191,7 @@ class playground_env(gym.Env):
         else:
             self.time_step_counter_pickup = self.time_step_counter_pickup + 1
             dis = np.abs(self.PG.pos - self.PG.ran_pos)
-            if dis[0]< self.l*0.03 and dis[1]< self.l*0.03:
+            if dis[0]< 3 and dis[1]< 3:
                 self.time_step_counter_station = 0
                 self.PG.generated = False
                 self.PG.grid[self.PG.ran_pos[0]][self.PG.ran_pos[1]] = 0
