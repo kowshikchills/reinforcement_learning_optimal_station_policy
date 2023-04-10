@@ -117,9 +117,9 @@ class playground_env(gym.Env):
         if self.PG.generated:
             r_cd = -1*((self.PG.pos[0] - self.PG.ran_pos[0])**2 + (self.PG.pos[1] - self.PG.ran_pos[1])**2)**0.5
             r_cd_scale = self.reward_params[0]*r_cd/(self.PG.l*(2)**0.5)
-            r = r_cd_scale - self.reward_params[2]
+            r = r_cd_scale - self.reward_params[1]
         else:
-            r = - self.reward_params[1]
+            r = - self.reward_params[2]
         return(r)
 
     def define_done(self):
