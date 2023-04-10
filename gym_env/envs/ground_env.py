@@ -22,13 +22,13 @@ class PlayGround:
         self.generated = False
         self.traj_tracker = []
         self.degree_action_map = {0: 0, 2: 180, 1: 90, 3: 270}
-        self.positional_grid = cartesian(np.arange(0,100),np.arange(0,100))
+        self.positional_grid = cartesian(np.arange(0,self.l),np.arange(0,self.l))
         if generation_policy == 'uniform':
             self.weights_ = np.ones(len(self.positional_grid))
         elif generation_policy == 'radial':
-            self.weights_  = ((50-self.positional_grid.T[0])**2) + ((50-self.positional_grid.T[1])**2)
+            self.weights_  = ((self.l/2-self.positional_grid.T[0])**2) + ((self.l/2-self.positional_grid.T[1])**2)
         elif generation_policy == 'inverse_radial':
-            self.weights_ = 2*50**2 -1*((50-self.positional_grid.T[0])**2) + -1*((50-self.positional_grid.T[1])**2)
+            self.weights_ = 2*(self.l/2)**2 -1*((self.l/2-self.positional_grid.T[0])**2) + -1*((self.l/2-self.positional_grid.T[1])**2)
 
     def setup_PG_grid(self):
         self.grid = np.zeros((self.l, self.l))
@@ -137,27 +137,27 @@ class playground_env(gym.Env):
             obs_dict = {}
             obs_dict['x'] = self.PG.pos[0]
             obs_dict['y'] = self.PG.pos[1]
-            obs_dict['edgesx1'] = 100 - self.PG.pos[0]
+            obs_dict['edgesx1'] = self.l - self.PG.pos[0]
             obs_dict['edgesx2'] = self.PG.pos[0] - 0
             obs_dict['edgesy1'] = self.PG.pos[1] - 0
-            obs_dict['edgesy2'] = 100 - self.PG.pos[1]
-            obs_dict['centrex1'] = self.PG.pos[0] - 50
-            obs_dict['centrex2'] = 50 - self.PG.pos[0]
-            obs_dict['centrey1'] = self.PG.pos[1] - 50
-            obs_dict['centrey2'] = 50 - self.PG.pos[1]
+            obs_dict['edgesy2'] = self.l - self.PG.pos[1]
+            obs_dict['centrex1'] = self.PG.pos[0] - self.l/2
+            obs_dict['centrex2'] = self.l/2 - self.PG.pos[0]
+            obs_dict['centrey1'] = self.PG.pos[1] - self.l/2
+            obs_dict['centrey2'] = self.l/2 - self.PG.pos[1]
  
             if self.PG.generated:
                 obs_dict['goal'] = 1
                 obs_dict['rx'] = self.PG.ran_pos[0]
                 obs_dict['ry'] = self.PG.ran_pos[1]
-                obs_dict['redgesx1'] = 100 - self.PG.ran_pos[0]
+                obs_dict['redgesx1'] = self.l - self.PG.ran_pos[0]
                 obs_dict['redgesx2'] = self.PG.ran_pos[0] - 0
                 obs_dict['redgesy1'] = self.PG.ran_pos[1] - 0
-                obs_dict['redgesy2'] = 100 - self.PG.ran_pos[1]
-                obs_dict['rcentrex1'] = self.PG.ran_pos[0] - 50
-                obs_dict['rcentrex2'] = 50 - self.PG.ran_pos[0]
-                obs_dict['rcentrey1'] = self.PG.ran_pos[1] - 50
-                obs_dict['rcentrey2'] = 50 - self.PG.ran_pos[1]
+                obs_dict['redgesy2'] = self.l - self.PG.ran_pos[1]
+                obs_dict['rcentrex1'] = self.PG.ran_pos[0] - self.l/2
+                obs_dict['rcentrex2'] = self.l/2 - self.PG.ran_pos[0]
+                obs_dict['rcentrey1'] = self.PG.ran_pos[1] - self.l/2
+                obs_dict['rcentrey2'] = self.l/2 - self.PG.ran_pos[1]
                 obs_dict['deltax'] = self.PG.pos[0] - self.PG.ran_pos[0]
                 obs_dict['deltay'] = self.PG.pos[1] - self.PG.ran_pos[1]
                 obs_dict['deltaxy'] = ((self.PG.pos[0] - self.PG.ran_pos[0])**2 + (self.PG.pos[1] - self.PG.ran_pos[1])**2)**0.5
@@ -178,7 +178,7 @@ class playground_env(gym.Env):
                 obs_dict['deltay'] = 0
                 obs_dict['deltaxy'] = 0
 
-        obs = np.array(list(obs_dict.values()))/100    
+        obs = np.array(list(obs_dict.values()))/self.l    
         return(obs)
 
     def step(self,a):
@@ -191,7 +191,7 @@ class playground_env(gym.Env):
         else:
             self.time_step_counter_pickup = self.time_step_counter_pickup + 1
             dis = np.abs(self.PG.pos - self.PG.ran_pos)
-            if dis[0]< 3 and dis[1]< 3:
+            if dis[0]< self.l*0.03 and dis[1]< self.l*0.03:
                 self.time_step_counter_station = 0
                 self.PG.generated = False
                 self.PG.grid[self.PG.ran_pos[0]][self.PG.ran_pos[1]] = 0
